@@ -1,6 +1,9 @@
 #include <stdio.h>
 
-#define INQUOTE 1
+#define INCOMMENT 1
+#define OUTCOMMENT 0
+#define IN2QUOTE 2
+#define IN1QUOTE 1
 #define OUTQUOTE 0
 #define OPENBRACK 1
 #define REGCHAR 0
@@ -10,31 +13,61 @@
 #define MAX 1000
 #define ASCIICOUNT 128
 
-/* return char array with ASCII index of closing chars being the opening char value */
-
 void asciipair(char charpairs[]);
 int chartype(int c);
+void adderror(char errors[], int index, char newerror[]);
 
 int main()
 {
-    int c, qstate, cstate, chartype, openidx, errorsidx, fileline;
+    int c, prevchar, qstate, cstate, type, openidx, erroridx, fileline;
     char errors[MAX];
     char openchars[MAX];    /* an array of opening characters that have yet to be closed */
     char charpairs[ASCIICOUNT];
 
+    /* set initial values */
+    openidx = -1;
+    erroridx = 0;
+    fileline = 1;
+    qstate = OUTQUOTE;
+    cstate = OUTCOMMENT;
+
     asciipair(charpairs);   /* make array for matching brackets/quotes */
 
     while ((c = getchar()) != EOF) {
-	chartype = chartype(c);
+	type = chartype(c);
 
-	if (chartype == OPENBRACK) {
+	if (type == REGCHAR)
+	    continue;
 
+	if (type == OPENBRACK) {
+	    ++openidx;
+	    openchars[openidx] = c;
 	}
 
+	if (type == CLOSEBRACK) {
+	    if (openchars[openidx] == charpairs[c]) {
+		--openidx;  /* so that next openchar replaces the current last one, or next close char is compared to new last one */
+	    } else {
+		adderror(errors, erroridx, "Mismatching closing bracket.\n");
+	    }
+	}
     }
 
 
     printf("\n\n%s\n\n", errors);
+}
+
+void adderror(char errors[], int index, char newerror[]) {
+    int i;
+
+    i = 0;
+
+    while (newerror[i]) {
+	errors[index + i] = newerror[i];  /* due to i's final increment it will be out of index in newerror[], making errors[] index 1 ahead of the actual */
+	++i;
+    }
+
+    index += i; /* increment the index of the error array by the chars in newerror */
 }
 
 void asciipair(char charpairs[]) 
@@ -74,15 +107,14 @@ int chartype(int c)
 
     for (i = 0; i < 3; ++i) {
 	if (c == open[i])
-	    return  OPENBRACK;
+	    return OPENBRACK;
 	else if (c == close[i])
 	    return CLOSEBRACK;
 	else if (c == '"')
 	    return DQUOTE;
-	else if (c == ''')
+	else if (c == '\'')
 	    return SQUOTE;
     }
     
-
     return REGCHAR;
 }

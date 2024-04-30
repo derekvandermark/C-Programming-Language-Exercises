@@ -18,7 +18,7 @@ void asciipair(char charpairs[]);
 int chartype(int c);
 int adderror(char errors[], int index, char newerror[]);
 void formaterror(char error[], int line);
-char singledigitinttochar(int num);
+char digittochar(int num);
 void inttostr(int num, char str[]);
 
 int main()
@@ -69,7 +69,7 @@ int main()
     printf("\n\n%s\n\n", errors);
 }
 
-char singledigitinttochar(int num) {
+char digittochar(int num) {
     switch (num) {
 	case 9: return '9';
 		break;
@@ -116,9 +116,10 @@ void inttostr(int num, char str[]) {
 	    decrementee -= decrement;
 	}
 
-	str[index] = singledigitinttochar(decrementee / decrement);
+	str[index] = digittochar(decrementee / decrement);
 	++index;
 	--x;
+	num -= decrementee;
     }
 }
 

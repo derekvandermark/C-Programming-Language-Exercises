@@ -58,7 +58,7 @@ int main()
 	    if (openchars[openidx] == charpairs[c]) {
 		--openidx;  /* so that next openchar replaces the current last one, or next close char is compared to new last one */
 	    } else {
-		char newerror[] = "Mismatching closing bracket. Line: ";
+		char newerror[] = "Mismatching closing bracket. ";
 		formaterror(newerror, fileline);
 		erroridx += adderror(errors, erroridx, newerror);
 	    }

@@ -58,7 +58,7 @@ int main()
 	    if (openchars[openidx] == charpairs[c]) {
 		--openidx;  /* so that next openchar replaces the current last one, or next close char is compared to new last one */
 	    } else {
-		char newerror[] = "Mismatching closing bracket. ";
+		char newerror[] = "Mismatching closing bracket   ";
 		formaterror(newerror, fileline);
 		erroridx += adderror(errors, erroridx, newerror);
 	    }
@@ -94,18 +94,14 @@ char digittochar(int num) {
 }
 
 void inttostr(int num, char str[]) {
-    int greaternum; /* a number greater than num, overnum = 10^x */
     int x;
     int index;
-    greaternum = 0;
     x = 0;
     index = 0;
 
-    while (num >= pow(10, x)) {
+    while (num >= pow(10, x)) {  /* increment x until pow(10, x) > num */
 	++x;
     }
-
-    greaternum = pow(10, x);
 
     while (x >= 1) {
 	int decrement, decrementee;
@@ -136,6 +132,7 @@ void formaterror(char error[], int line) {
 		error[i + j + 1] = linestr[j];
 		++j;
 	    }
+	    break;
 	}
 
 	++i;

@@ -22,11 +22,14 @@ int main()
 */
 
 
-    char c;
+    int c;
 
     while ((c = getchar()) != EOF) {
 	printf("%d", c);
     }
+    printf("Last c %d\n", c);
+    printf("HEREHERE%c\n", -64);
+    printf("YOOOOOÆ");
 
 
     int a = 0xFF;

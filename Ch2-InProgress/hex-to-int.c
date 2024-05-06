@@ -15,11 +15,13 @@ int main()
     char str[MAX];
 
     while ((c = getchar()) != EOF) {
+	printf("inside");
 	if (c != '\0') {
 	    str[length] = c;
 	    ++length;
 	}
     }
+    printf("past");
 
     if (is_hex(str)) {
 	converted = htoi(str, length);

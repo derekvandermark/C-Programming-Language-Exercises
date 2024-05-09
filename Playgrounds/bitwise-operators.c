@@ -17,5 +17,18 @@ int main()
 
     printf("Bitwise exclusive OR test: %d\n", e ^ f);
 
+    int g = 8;
+    int h = 3;
+
+    printf("Bitwise left shift test: %d\n", g << h);
+
+    int i = -5;
+    int j = 2;
+
+    printf("Bitwise right shift test: %d\n", i >> j);
+
+    int k = 10;
+
+    printf("Bitwise unary test: %d\n", ~k);
 
 }
